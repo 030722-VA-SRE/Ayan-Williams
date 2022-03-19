@@ -60,13 +60,32 @@ public class BuggPostgres implements BuggDao{
 		} catch (SQLException e) {
 		e.printStackTrace();
 	}
-	
-	return bL;
-
-		
+	return bL;	
 	}
 	
 	
+
+	public boolean deleteBuggById(int id) {
+			String sql = "delete from bugg where id = ?;";
+
+			try (Connection c = ConnectionUtil.getConnectionFromEnv()) {
+				PreparedStatement ps = c.prepareStatement(sql);
+//	
+				ps.setInt(1, id);
+	
+				ResultSet rs = ps.executeQuery();
+//	
+				if (rs.next()) {
+					System.out.println("Buggs :)");
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			return true;
+		}
+
+	
+
 //
 //	@Override
 //	public Bugg getBuggByKind(String kind) {
@@ -80,11 +99,6 @@ public class BuggPostgres implements BuggDao{
 //		return false;
 //	}
 //
-//	@Override
-//	public boolean deleteBuggById(int id) {
-//		
-//		return false;
-//	}
 //
 //	@Override
 //	public int createBugg(Bugg bugg) {

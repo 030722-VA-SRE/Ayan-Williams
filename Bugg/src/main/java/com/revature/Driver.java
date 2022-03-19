@@ -2,6 +2,7 @@ package com.revature;
 
 import java.util.List;
 
+//import org.eclipse.jetty.http.HttpStatus;
 
 //import java.util.List;
 
@@ -11,9 +12,10 @@ import com.revature.models.Bugg;
 import com.revature.services.BuggService;
 
 import io.javalin.Javalin;
+//import io.javalin.http.Context;
 
 public class Driver {	
-public static void main(String[] args){
+public static void main(String[] args) throws BuggNotFoundException{
 	//allows us to interact with methods in the bugg service class
 		//And the service methods interact with the BuggPostgres to handle persistence while adding buisness logic
 	BuggService bs = new BuggService();
@@ -51,6 +53,25 @@ public static void main(String[] args){
 				// log this to file
 			}
 	});
+	
+	//DELETE BY ID
+	app.delete("bugg/{id}", (ctx)->{
+		
+		int id = Integer.parseInt(ctx.pathParam("id"));
+
+		try {
+			boolean bugg = bs.deleteBuggById(id);
+			ctx.result("Goodbye Bugg #" + id + " !");
+			ctx.status(200);
+			} catch (BuggNotFoundException e) {
+				ctx.status(404);
+				ctx.result("Bugg of id: " + id + " was not found");
+				// log this to file
+		}
+
+	});	
+		
+	
 	
 			//RETURN BUGG BY KIND
 //	app.get("bugg/{kind}", (ctx) -> {

@@ -15,6 +15,5 @@ public interface BuggDao {
 //	public Bugg getBuggByKind(String kind);
 //	public Bugg getBuggByPrice(int price);
 //	public boolean updateBugg(Bugg bugg);
-//	public boolean deleteBuggById(int id);
-//	
+	public boolean deleteBuggById(int id);
 }

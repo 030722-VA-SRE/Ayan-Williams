@@ -34,6 +34,15 @@ public class BuggService {
 	}
 	
 	
+	public boolean deleteBuggById(int id) throws BuggNotFoundException{
+		 boolean bugg = bDao.deleteBuggById(id);
+		 if(!bugg) {
+				throw new BuggNotFoundException();
+			}
+		 return true;
+	}
+
+
 	
 	
 	
