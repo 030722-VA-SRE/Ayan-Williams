@@ -11,9 +11,10 @@ public interface BuggDao {
 	
 	public Bugg getBuggById(int id);
 	public List<Bugg> getBugg();
-//	public int createBugg(Bugg bugg);
-//	public Bugg getBuggByKind(String kind);
-//	public Bugg getBuggByPrice(int price);
-//	public boolean updateBugg(Bugg bugg);
 	public boolean deleteBuggById(int id);
+	public boolean updateBugg (Bugg bugg);
+	public int createBugg (Bugg bugg);
+	public List<Bugg> getBuggByFam(String fam);
+	public List<Bugg> getBuggByHab(String fam);
+	public List<Bugg> getByFamandHab(String fam, String hab);
 }

@@ -1,9 +1,5 @@
 package com.revature.models;
 
-//import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
 import java.util.Objects;
 
 public class Bugg {
@@ -11,22 +7,14 @@ public class Bugg {
 	//fields 
 	private int id;
 	private int price;
+	private String fam;
 	private String kind;
-	private String habitat;
+	private String hab;
 	
 
 	//constructor
 	public Bugg() {
 		super();
-	}
-	
-		public Bugg(String kind, int price, String habitat) {
-			this();
-			this.kind = kind;
-			this.price = price;
-			this.habitat = habitat;
-			
-			
 	}
 	
 	//getters & setters
@@ -48,21 +36,28 @@ public class Bugg {
 	public void setPrice(int price) {
 		this.price = price;
 	}
-	public String getHabitat() {
-		return habitat;
+	public String getHab() {
+		return hab;
 	}
-	public void setHabitat(String habitat) {
-		this.habitat = habitat;
+	public void setHab(String hab) {
+		this.hab = hab;
+	}
+	
+	public String getFam() {
+		return fam;
+	}
+	public void setFam(String fam) {
+		this.fam = fam;
 	}
 	
 	@Override
 	public String toString() {
-		return "Bugg [id=" + id + ", kind=" + kind + ", price=" + price + ", habitat=" + habitat + "]";
+		return "Bugg [id=" + id + ", kind=" + kind + ", price=" + price + ", hab=" + hab + "]";
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(habitat, id, kind, price);
+		return Objects.hash(hab, id, kind, price);
 	}
 
 	@Override
@@ -74,9 +69,11 @@ public class Bugg {
 		if (getClass() != obj.getClass())
 			return false;
 		Bugg other = (Bugg) obj;
-		return Objects.equals(habitat, other.habitat) && id == other.id && Objects.equals(kind, other.kind)
+		return Objects.equals(hab, other.hab) && id == other.id && Objects.equals(kind, other.kind)
 				&& price == other.price;
 	}
+
+	
 
 	
 	

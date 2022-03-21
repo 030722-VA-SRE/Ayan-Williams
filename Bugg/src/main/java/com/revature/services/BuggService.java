@@ -3,12 +3,14 @@ package com.revature.services;
 import java.util.List;
 
 
+
 //import java.util.List;
 
 import com.revature.daos.BuggDao;
 import com.revature.daos.BuggPostgres;
 import com.revature.exceptions.BuggNotFoundException;
 import com.revature.models.Bugg;
+
 
 //Service layer for buisness logic
 //layer connecting to Dao layer
@@ -42,28 +44,53 @@ public class BuggService {
 		 return true;
 	}
 
+	
 
+	public boolean updateBugg(Bugg bugg) throws BuggNotFoundException{
+		boolean bugg2 = bDao.updateBugg(bugg);
+		if(!bugg2) {
+			throw new BuggNotFoundException();
+		}
+		return true;
+	}
 	
 	
+	public boolean createBugg(Bugg bugg) { //from Dao (this was previously initialized in Dao)
+		int generatedId = bDao.createBugg(bugg);
+		if(generatedId != 1) {
+			return true;
+		}
+		return false;
+	}
 	
-	
-//	public Bugg getByKind(String kind) throws BuggNotFoundException{
-//		Bugg bugg = bDao.getBuggByKind(kind);
-//		if(bugg == null) {
-//			throw new BuggNotFoundException();
-//		}
-//		return bugg;
-//	}
+	public List<Bugg> getBuggByFam(String fam) throws BuggNotFoundException {
+		List<Bugg> bL = bDao.getBuggByFam(fam);
+		if(bL.isEmpty()) {
+			throw new BuggNotFoundException();
+		}
+	return bL;
+	}
 
+	public List<Bugg> getBuggByHab(String hab) throws BuggNotFoundException {
+		List<Bugg> bL = bDao.getBuggByHab(hab);
+		if(bL.isEmpty()) {
+			throw new BuggNotFoundException();
+		}
+	return bL;
+	}
 	
-	
-	
-	
-//	public Bugg getByPrice(int price) throws BuggNotFoundException{
-//		Bugg bugg = bDao.getBuggByPrice(price);
-//		if(bugg == null) {
-//			throw new BuggNotFoundException();
-//		}
-//		return bugg;
-//	}
+	public List<Bugg> getByFamandHab(String fam, String hab) throws BuggNotFoundException{
+		List <Bugg> bL = bDao.getByFamandHab(fam, hab);
+		if(bL.isEmpty()) {
+			throw new BuggNotFoundException();
+		}
+		return bL;
 }
+
+}
+	
+
+
+
+
+
