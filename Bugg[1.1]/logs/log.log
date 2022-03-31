@@ -1,0 +1,12 @@
+22:54:33.127 [JettyServerThreadPool-19] ERROR  - User attempted to find Bugg that does not exist. Bugg id: 11
+14:45:13.515 [JettyServerThreadPool-20] ERROR  - User attempted to find Bugg that does not exist. Bugg id: 11
+19:08:03.645 [JettyServerThreadPool-20] ERROR  - User attempted to find Bugg that does not exist. Bugg id: 11
+19:10:35.403 [JettyServerThreadPool-20] ERROR  - Creation of new Bugg denied.
+19:37:47.188 [JettyServerThreadPool-22] ERROR  - User attempted to find Bugg hab that doesn't exist
+21:04:43.922 [JettyServerThreadPool-15] ERROR  - User attempted to find Bugg hab that doesn't exist
+21:07:12.907 [JettyServerThreadPool-20] ERROR  - User attempted to find Bugg that does not exist. Bugg id: 11
+22:16:51.690 [JettyServerThreadPool-17] ERROR  - User attempted to find Bugg hab that doesn't exist
+22:17:02.925 [JettyServerThreadPool-19] ERROR  - User attempted to find Bugg hab that doesn't exist
+22:22:00.238 [JettyServerThreadPool-15] ERROR  - User attempted to find Bugg hab that doesn't exist
+22:26:13.914 [JettyServerThreadPool-19] ERROR  - User attempted to find Bugg hab that doesn't exist
+22:26:21.254 [JettyServerThreadPool-17] ERROR  - User attempted to find Bugg hab that doesn't exist
