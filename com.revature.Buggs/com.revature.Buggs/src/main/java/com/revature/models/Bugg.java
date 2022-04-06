@@ -28,32 +28,21 @@ public class Bugg {
 	@Column
 	private String hab;
 	
-	@Column (name = "mlevel")
-	private String mlevel;
-	
 	@Column
 	private int price;
-	
-	@Column
-	private String unit;
-	
-	@Column
-	private boolean islegal;
-	
-	@Column
-	private boolean needpermit;
 	
 	@ManyToOne
 	@JoinColumn(nullable = false, name = "seller_id")
 	private User seller;
 
-	//REFACTOR HAB & mLEVEL TO BE ENUMS
-	//RESEARCH @ ANNOTATINOS TO USE
-	
-	
 	public Bugg() {
 		super();
 
+	}
+
+
+	public Bugg(int id, String kind, String fam, String hab, int price) {
+	
 	}
 
 
@@ -97,16 +86,6 @@ public class Bugg {
 	}
 
 
-	public String getmLevel() {
-		return mlevel;
-	}
-
-
-	public void setmLevel(String mLevel) {
-		this.mlevel = mLevel;
-	}
-
-
 	public int getPrice() {
 		return price;
 	}
@@ -114,36 +93,6 @@ public class Bugg {
 
 	public void setPrice(int price) {
 		this.price = price;
-	}
-
-
-	public String getUnit() {
-		return unit;
-	}
-
-
-	public void setUnit(String unit) {
-		this.unit = unit;
-	}
-
-
-	public boolean isIslegal() {
-		return islegal;
-	}
-
-
-	public void setIslegal(boolean islegal) {
-		this.islegal = islegal;
-	}
-
-
-	public boolean isNeedpermit() {
-		return needpermit;
-	}
-
-
-	public void setNeedpermit(boolean needpermit) {
-		this.needpermit = needpermit;
 	}
 
 
@@ -159,38 +108,18 @@ public class Bugg {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(fam, hab, id, islegal, kind, mlevel, needpermit, price, seller, unit);
-	}
-
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Bugg other = (Bugg) obj;
-		return Objects.equals(fam, other.fam) && Objects.equals(hab, other.hab) && id == other.id
-				&& islegal == other.islegal && Objects.equals(kind, other.kind) && Objects.equals(mlevel, other.mlevel)
-				&& needpermit == other.needpermit && price == other.price && Objects.equals(seller, other.seller)
-				&& Objects.equals(unit, other.unit);
+		return Objects.hash(fam, hab, id, kind, price, seller);
 	}
 
 
 	@Override
 	public String toString() {
-		return "Bugg [id=" + id + ", kind=" + kind + ", fam=" + fam + ", hab=" + hab + ", mlevel=" + mlevel + ", price="
-				+ price + ", unit=" + unit + ", islegal=" + islegal + ", needpermit=" + needpermit + ", seller="
+		return "Bugg [id=" + id + ", kind=" + kind + ", fam=" + fam + ", hab=" + hab + ", price=" + price + ", seller="
 				+ seller + "]";
 	}
 
 
-
-
-
-
+	
 	}
 
 

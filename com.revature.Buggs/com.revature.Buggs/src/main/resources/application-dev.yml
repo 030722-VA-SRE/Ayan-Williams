@@ -13,3 +13,9 @@ spring:
   h2:
     console:
       enabled: true
+      
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, metrics, prometheus

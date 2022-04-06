@@ -2,7 +2,8 @@ package com.revature.controllers;
 
 import java.util.List;
 
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.revature.models.Bugg;
@@ -24,6 +26,7 @@ import com.revature.services.BuggService;
 public class BuggController {
 	
 	private BuggService bs;
+	private static final Logger LOG = LoggerFactory.getLogger(BuggController.class);
 
 	@Autowired
 	public BuggController(BuggService bs) {
@@ -31,9 +34,24 @@ public class BuggController {
 		this.bs = bs;
 	}
 	
+//	@GetMapping
+//	public ResponseEntity<List<Bugg>> getAll() {
+//		return new ResponseEntity<>(bs.getAll(), HttpStatus.OK);
+//		
+//	}
+
 	@GetMapping
-	public ResponseEntity<List<Bugg>> getAll() {
-		return new ResponseEntity<>(bs.getAll(), HttpStatus.OK);
+	public ResponseEntity<List<Bugg>> getAll(@RequestParam(name="fam", required=false) String fam, 
+			@RequestParam(name="hab", required=false)String hab){
+		
+		if(fam!=null) {
+		return new ResponseEntity<>(bs.getBuggsByFam(fam), HttpStatus.OK);
+		}
+		if(hab!=null) {
+			return new ResponseEntity<>(bs.getBuggsByHab(hab), HttpStatus.OK);
+		}
+		LOG.info("Buggs retrieved.");
+			return new ResponseEntity<>(bs.getAll(), HttpStatus.OK);
 	}
 
 	
@@ -41,14 +59,7 @@ public class BuggController {
 	public ResponseEntity<Bugg> getBuggById(@PathVariable("id") int id){
 		return new ResponseEntity<>(bs.getById(id),HttpStatus.OK);
 	}
-	
-	
-	//requestparam
-//	@GetMapping("?fam={fam}")
-//	public ResponseEntity<List<Bugg>> getBuggByFam(@PathVariable("fam") String fam){
-//		return new ResponseEntity<>(bs.getByFam(),HttpStatus.OK);
-//	}
-	
+
 	
 	@PostMapping
 	public ResponseEntity<String> createBugg(@RequestBody Bugg bugg){
@@ -59,7 +70,7 @@ public class BuggController {
 	@PutMapping("/{id}")
 	public ResponseEntity<Bugg> updateBugg(@RequestBody Bugg bugg, @PathVariable("id") int id) {
 		return new ResponseEntity<>(bs.updateBugg(id, bugg), HttpStatus.OK); 
-		//"Bugg #"+id+" has been updated",
+		
 	}
 
 	@DeleteMapping("/{id}")

@@ -1,6 +1,7 @@
 package com.revature.services;
 
 import org.jboss.logging.MDC;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,14 +27,10 @@ public class AuthService {
 	
 	public String login(String username, String password) {
 		User user = ur.findUserByUsername(username);
-	
-
 		if(user == null || !user.getPassword().equals(password)) {
 			throw new AuthenticationException("Attempted to login with username: " + username);
 		}
-		
 		LOG.info("User " + user.getUsername() + "'s credentials validated.");
-
 		return user.getId()+":"+user.getRole().toString();
 	}
 	
@@ -43,18 +40,12 @@ public class AuthService {
 		if(token == null) {
 			throw new AuthorizationException("null token");
 		}
-		
-
 		String[] splitToken = token.split(":");
-
-
 		User principal = ur.findById(Integer.valueOf(splitToken[0])).orElse(null);
-		
 		// Authentication
 		if(principal == null || !principal.getRole().toString().equals(splitToken[1]) || !principal.getRole().toString().equals("ADMIN")) {
 			throw new AuthorizationException("Unable to verify token of value: " + splitToken[0] + ", " + splitToken[1]);
 		} 
-		
 		LOG.info("token verified successfully");
 		// could log a user id
 		MDC.put("userId", principal.getId());

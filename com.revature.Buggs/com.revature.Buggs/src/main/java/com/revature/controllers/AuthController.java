@@ -45,7 +45,7 @@ public class AuthController {
 		
 		hh.set("Authorization", token);
 		
-		LOG.debug("Login terminated successfully");
+		
 		LOG.info("Login successful");
 
 		return new ResponseEntity<>("Login successful.", hh, HttpStatus.OK);

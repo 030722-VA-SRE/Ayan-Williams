@@ -26,10 +26,9 @@ public class UserService {
 	private static Logger log = LoggerFactory.getLogger(UserService.class);
 	
 	@Autowired
-	public UserService(UserRepository ur, BuggRepository br) {
+	public UserService(UserRepository ur) {
 		super();
 		this.ur = ur;
-		this.br = br;
 	}
 	
 	public List<UserDTO> getUsers(){
@@ -57,6 +56,12 @@ public class UserService {
 		return new UserDTO(user);
 	}
 	
+	public User getUserById2(int id) throws UserNotFoundException{
+		User user = ur.findById(id).orElseThrow(UserNotFoundException::new);
+		return user;
+		
+	}
+	
 	@Transactional
 	public User createUser(User newUser) {	
 		/*-
@@ -79,11 +84,9 @@ public class UserService {
 	}
 	
 	@Transactional
-	public void deleteUser(int id) throws UserNotFoundException {
-		// this tries to retrieve a user by id, if it doesn't exist, throws an exception
-		getUserById(id);
-
+	public boolean deleteUserById(int id) throws UserNotFoundException {
 		ur.deleteById(id);
+		return true;
 	}
 
 

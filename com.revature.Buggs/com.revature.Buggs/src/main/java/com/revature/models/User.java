@@ -31,7 +31,7 @@ public class User {
 	@Enumerated(EnumType.STRING)
 	private UserRole role;
 	
-	public User() {
+	public User(int id, String username, String password, UserRole urole) {
 		super();
 	}
 	

@@ -45,9 +45,7 @@ public class UserController {
 	public ResponseEntity<List<UserDTO>> getUsers(@RequestHeader(value = "Authorization", required = false) String token){
 		
 		MDC.put("requestId", UUID.randomUUID().toString());
-
-//		as.verify(token);
-		
+		as.verify(token);
 		LOG.info("users retrieved");
 		return new ResponseEntity<>(us.getUsers(), HttpStatus.OK);
 	}
@@ -63,27 +61,27 @@ public class UserController {
 		}
 
 		MDC.put("userToken", token);
-//		as.verify(token);
+		as.verify(token);
 		UserDTO u = us.getUserById(id);
 		MDC.clear();
 		return new ResponseEntity<>(u, HttpStatus.OK);
 
 	}
 
-//	@PostMapping
-//	public ResponseEntity<String> createUser(@RequestBody User user) {
-//		User u = us.createUser(user);
-//		return new ResponseEntity<>("User " + u.getUsername() + "has been created.", HttpStatus.CREATED);
-//	}
-//
-//	@PutMapping("/{id}")
-//	public ResponseEntity<User> updateUser(@RequestBody User user, @PathVariable("id") int id) {
-//		return new ResponseEntity<>(us.updateUser(id, user), HttpStatus.CREATED);
-//	}
-//
-//	@DeleteMapping("/{id}")
-//	public ResponseEntity<String> DeleteById(@PathVariable("id") int id) {
-//		us.deleteUser(id);
-//		return new ResponseEntity<>("User was deleted", HttpStatus.OK);
-//	}
+	@PostMapping
+	public ResponseEntity<String> createUser(@RequestBody User user) {
+		User u = us.createUser(user);
+		return new ResponseEntity<>("User " + u.getUsername() + "has been created.", HttpStatus.CREATED);
+	}
+
+	@PutMapping("/{id}")
+	public ResponseEntity<User> updateUser(@RequestBody User user, @PathVariable("id") int id) {
+		return new ResponseEntity<>(us.updateUser(id, user), HttpStatus.CREATED);
+	}
+
+	@DeleteMapping("/{id}")
+	public ResponseEntity<String> DeleteById(@PathVariable("id") int id) {
+		us.deleteUserById(id);
+		return new ResponseEntity<>("User was deleted", HttpStatus.OK);
+	}
 }
