@@ -50,7 +50,7 @@ public class UserServiceTest {
 	@Test
 	public void getUserByIdTest() {
 		when(ur.findById(1)).thenReturn(Optional.of(user));
-		assertEquals(user, us.getUserById2(1));	
+		assertEquals(user, us.getAllById(1));	
 	}
 	
 	@Test

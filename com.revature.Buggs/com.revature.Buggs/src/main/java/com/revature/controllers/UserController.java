@@ -28,7 +28,7 @@ import com.revature.services.UserService;
 @RestController
 @RequestMapping("/users")
 public class UserController {
-	
+
 	private UserService us;
 	private AuthService as;
 	private static final Logger LOG = LoggerFactory.getLogger(UserController.class);
@@ -39,49 +39,53 @@ public class UserController {
 		this.us = us;
 		this.as = as;
 	}
-	
+
+//SELLER AND BASIC USER METHODS FOR FINDING USERS INFO
 
 	@GetMapping
-	public ResponseEntity<List<UserDTO>> getUsers(@RequestHeader(value = "Authorization", required = false) String token){
-		
+	public ResponseEntity<List<UserDTO>> getUsers(
+			@RequestHeader(value = "Authorization", required = true) String token) {
+		if (token == null) {
+			LOG.warn("Not authorized to search users.");
+			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+		}
+
 		MDC.put("requestId", UUID.randomUUID().toString());
-		as.verify(token);
+		as.allVerify(token);
 		LOG.info("users retrieved");
 		return new ResponseEntity<>(us.getUsers(), HttpStatus.OK);
 	}
-	
-	
+
 	@GetMapping("/{id}")
 	public ResponseEntity<UserDTO> getById(@PathVariable("id") int id, @RequestHeader("Authorization") String token) {
 
 		// this just checks if the token is null, not if it has the right value
 		if (token == null) {
-			LOG.warn("[insert user info here] tried to access endpoint /users/id");
+			LOG.warn("Not authorized to search users.");
 			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 		}
 
 		MDC.put("userToken", token);
-		as.verify(token);
+		as.allVerify(token);
 		UserDTO u = us.getUserById(id);
 		MDC.clear();
 		return new ResponseEntity<>(u, HttpStatus.OK);
-
 	}
 
 	@PostMapping
-	public ResponseEntity<String> createUser(@RequestBody User user) {
-		User u = us.createUser(user);
-		return new ResponseEntity<>("User " + u.getUsername() + "has been created.", HttpStatus.CREATED);
+	public String createUser() {
+		return ("Unautherized to create new user");
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<User> updateUser(@RequestBody User user, @PathVariable("id") int id) {
-		return new ResponseEntity<>(us.updateUser(id, user), HttpStatus.CREATED);
+	public String updateUser(){
+		return("Unauthorized to update users.");
 	}
-
-	@DeleteMapping("/{id}")
-	public ResponseEntity<String> DeleteById(@PathVariable("id") int id) {
-		us.deleteUserById(id);
-		return new ResponseEntity<>("User was deleted", HttpStatus.OK);
+	
+	@DeleteMapping
+		public String DeleteById() {
+			return("Unauthorized to delete users");
 	}
 }
+
+

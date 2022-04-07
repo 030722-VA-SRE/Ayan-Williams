@@ -49,6 +49,11 @@ public class UserService {
 		
 	}
 	
+	public List<User> getAllUsers(){
+		List<User> users = ur.findAll();
+		return users;
+	}
+	
 	public UserDTO getUserById(int id) throws UserNotFoundException {
 		User user = ur.findById(id).orElseThrow(UserNotFoundException::new);
 		// log.info("user x retrieved ...");
@@ -56,7 +61,8 @@ public class UserService {
 		return new UserDTO(user);
 	}
 	
-	public User getUserById2(int id) throws UserNotFoundException{
+	
+	public User getAllById(int id) throws UserNotFoundException{
 		User user = ur.findById(id).orElseThrow(UserNotFoundException::new);
 		return user;
 		
@@ -64,9 +70,7 @@ public class UserService {
 	
 	@Transactional
 	public User createUser(User newUser) {	
-		/*-
-		 * logic for user already exists exception
-		 */
+		
 		return ur.save(newUser);
 	}
 	
@@ -74,12 +78,7 @@ public class UserService {
 	
 	@Transactional
 	public User updateUser(int id, User user) {
-		/*-
-		 *  Logic for update user, ie:
-		 *  	- check that user exists
-		 *  	- partial updates
-		 *  	- etc...
-		 */
+	
 		return ur.save(user);
 	}
 	

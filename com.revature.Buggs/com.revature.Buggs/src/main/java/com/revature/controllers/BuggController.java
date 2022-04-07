@@ -1,7 +1,9 @@
 package com.revature.controllers;
 
 import java.util.List;
+import java.util.UUID;
 
+import org.jboss.logging.MDC;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,11 +15,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.revature.models.Bugg;
+import com.revature.services.AuthService;
 import com.revature.services.BuggService;
 
 
@@ -25,6 +29,7 @@ import com.revature.services.BuggService;
 @RequestMapping("/bugg")
 public class BuggController {
 	
+	private AuthService as;
 	private BuggService bs;
 	private static final Logger LOG = LoggerFactory.getLogger(BuggController.class);
 
@@ -60,21 +65,43 @@ public class BuggController {
 		return new ResponseEntity<>(bs.getById(id),HttpStatus.OK);
 	}
 
+	//SELLERS AND ADMIN ONLY
 	
 	@PostMapping
-	public ResponseEntity<String> createBugg(@RequestBody Bugg bugg){
+	public ResponseEntity<String> createBugg(@RequestBody Bugg bugg, @RequestHeader(value = "Authorization", required = true) String token){
+		if (token == null) {
+			LOG.warn("Not authorized to post buggs.");
+			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+		}
+		MDC.put("requestId", UUID.randomUUID().toString());
+		as.adVerify(token);
+		LOG.info("users retrieved");
 		Bugg b = bs.createBugg(bugg);
 		return new ResponseEntity<>("Bugg " + b.getKind() + " has been created.", HttpStatus.CREATED);
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<Bugg> updateBugg(@RequestBody Bugg bugg, @PathVariable("id") int id) {
+	public ResponseEntity<Bugg> updateBugg(@RequestBody Bugg bugg, @PathVariable("id") int id, @RequestHeader(value = "Authorization", required = true) String token) {
+		if (token == null) {
+			LOG.warn("Not authorized to update buggs.");
+			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+		}
+		MDC.put("requestId", UUID.randomUUID().toString());
+		as.adVerify(token);
+		LOG.info("users retrieved");
 		return new ResponseEntity<>(bs.updateBugg(id, bugg), HttpStatus.OK); 
 		
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<String> deleteById(@PathVariable("id") int id) {
+	public ResponseEntity<String> deleteById(@PathVariable("id") int id, @RequestHeader(value = "Authorization", required = true) String token) {
+		if (token == null) {
+			LOG.warn("Not authorized to delete buggs.");
+			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+		}
+		MDC.put("requestId", UUID.randomUUID().toString());
+		as.adVerify(token);
+		LOG.info("users retrieved");
 		bs.deleteBuggById(id);
 		return new ResponseEntity<>("Bugg #"+id +" was deleted", HttpStatus.OK);
 	}

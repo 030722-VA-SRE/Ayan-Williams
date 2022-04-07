@@ -18,6 +18,7 @@ public class AuthService {
 	
 	private UserRepository ur;
 	private static final Logger LOG = LoggerFactory.getLogger(AuthService.class);
+	private static final User user = new User();
 	
 	@Autowired
 	public AuthService(UserRepository ur) {
@@ -35,7 +36,7 @@ public class AuthService {
 	}
 	
 	
-	public void verify(String token) {
+	public void adVerify(String token) {
 
 		if(token == null) {
 			throw new AuthorizationException("null token");
@@ -51,6 +52,26 @@ public class AuthService {
 		MDC.put("userId", principal.getId());
 	}
 
+	
+	
+	public void allVerify(String token) {
+
+		if(token == null) {
+			throw new AuthorizationException("null token");
+		}
+		String[] splitToken = token.split(":");
+		
+		User principal = ur.findById(Integer.valueOf(splitToken[0])).orElse(null);
+		// Authentication
+		if(principal == null ) {
+			throw new AuthorizationException("Unable to verify token of value: " + splitToken[0] + ", " + splitToken[1]);
+		} 
+		LOG.info("token verified successfully");
+		// could log a user id
+		MDC.put("userId", principal.getId());
+	}
+
+	
 	
 
 //	public String generateToken(UserDTO principal) {
